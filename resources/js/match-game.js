@@ -56,7 +56,7 @@ MatchGame.renderCards = function(cardValues, $game) {
   });
 
   $('.card').click(function(){
-    window.setTimeout(MatchGame.flipCard($(this), $game), 2000);
+    MatchGame.flipCard($(this), $game);
   });
 };
 
@@ -70,22 +70,24 @@ MatchGame.flipCard = function($card, $game) {
   if (!$card.data('flipped')) {
     $card.data('flipped', true);
     $card.css('background-color', $card.data('color'));
-    $card.html($card.data('value'));
+    $card.text($card.data('value'));
     $game.data('flippedCards').push($card);
   };
 
   if ($game.data('flippedCards').length === 2) {
-    if ($game.data('flippedCards')[0].data('value') === $game.data('flippedCards')[1].data('value')) {
-      $game.data('flippedCards')[0].css({'color': 'rgb(204, 204, 204)', 'background-color': 'rgb(153, 153, 153)'});
-      $game.data('flippedCards')[1].css({'color': 'rgb(204, 204, 204)', 'background-color': 'rgb(153, 153, 153)'});
-    } else {
-      $game.data('flippedCards')[0].data('flipped', false);
-      $game.data('flippedCards')[0].css('background-color', 'rgb(32, 64, 86)');
-      $game.data('flippedCards')[0].empty();
-      $game.data('flippedCards')[1].data('flipped', false);
-      $game.data('flippedCards')[1].css('background-color', 'rgb(32, 64, 86)');
-      $game.data('flippedCards')[1].empty();
-    }
-    $game.data('flippedCards', []);
+    setTimeout(function(){
+      if ($game.data('flippedCards')[0].data('value') === $game.data('flippedCards')[1].data('value')) {
+        $game.data('flippedCards')[0].css({'color': 'rgb(204, 204, 204)', 'background-color': 'rgb(153, 153, 153)'});
+        $game.data('flippedCards')[1].css({'color': 'rgb(204, 204, 204)', 'background-color': 'rgb(153, 153, 153)'});
+      } else {
+        $game.data('flippedCards')[0].data('flipped', false);
+        $game.data('flippedCards')[0].css('background-color', 'rgb(32, 64, 86)');
+        $game.data('flippedCards')[0].text('');
+        $game.data('flippedCards')[1].data('flipped', false);
+        $game.data('flippedCards')[1].css('background-color', 'rgb(32, 64, 86)');
+        $game.data('flippedCards')[1].text('');
+      }
+      $game.data('flippedCards', []);
+    }, 700);
   };
 };
